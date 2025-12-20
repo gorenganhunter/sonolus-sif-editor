@@ -9,6 +9,7 @@ import MultiBeatField from '../../../modals/form/MultiBeatField.vue'
 // import MultiConnectorLayerField from '../../../modals/form/MultiConnectorLayerField.vue'
 // import MultiConnectorTypeField from '../../../modals/form/MultiConnectorTypeField.vue'
 import MultiFlickDirectionField from '../../../modals/form/MultiFlickDirectionField.vue'
+import MultiShortenEarlyWindowField from '../../../modals/form/MultiShortenEarlyWindowField.vue'
 import MultiGroupField from '../../../modals/form/MultiGroupField.vue'
 // import MultiIsAttachedField from '../../../modals/form/MultiIsAttachedField.vue'
 // import MultiIsConnectorSeparatorField from '../../../modals/form/MultiIsConnectorSeparatorField.vue'
@@ -33,6 +34,7 @@ const lane = createModel('lane')
 // const size = createModel('size')
 // const isCritical = createModel('isCritical')
 const flickDirection = createModel('flickDirection')
+const shortenEarlyWindow = createModel('shortenEarlyWindow')
 // const isFake = createModel('isFake')
 // const sfx = createModel('sfx')
 // const isConnectorSeparator = createModel('isConnectorSeparator')
@@ -57,6 +59,10 @@ const flickDirection = createModel('flickDirection')
         <MultiFlickDirectionField
             v-if="noteFields.flickDirection !== false"
             v-model="flickDirection"
+        />
+        <MultiShortenEarlyWindowField
+            v-if="noteFields.shortenEarlyWindow !== false"
+            v-model="shortenEarlyWindow"
         />
         <!--MultiIsFakeField v-if="noteFields.isFake !== false" v-model="isFake" />
         <MultiSfxField v-if="noteFields.sfx !== false" v-model="sfx" />

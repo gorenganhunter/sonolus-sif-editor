@@ -303,6 +303,7 @@ export const editNote = (entity: NoteEntity, object: Partial<NoteObject>) => {
         // size: object.size ?? entity.size,
         // isCritical: object.isCritical ?? entity.isCritical,
         flickDirection: object.flickDirection ?? entity.flickDirection,
+        shortenEarlyWindow: object.shortenEarlyWindow ?? entity.shortenEarlyWindow,
         // isFake: object.isFake ?? entity.isFake,
         // sfx: object.sfx ?? entity.sfx,
         // isConnectorSeparator: object.isConnectorSeparator ?? entity.isConnectorSeparator,
@@ -334,6 +335,7 @@ export const editSelectedNote = (
         // size: object.size ?? entity.size,
         // isCritical: object.isCritical ?? entity.isCritical,
         flickDirection: object.flickDirection ?? entity.flickDirection,
+        shortenEarlyWindow: object.shortenEarlyWindow ?? entity.shortenEarlyWindow,
         // isFake: object.isFake ?? entity.isFake,
         // sfx: object.sfx ?? entity.sfx,
         // isConnectorSeparator: object.isConnectorSeparator ?? entity.isConnectorSeparator,
@@ -370,6 +372,8 @@ const getPropertiesFromSelection = () => {
         // isCritical: defaultNoteProperties.value.isCritical ?? note?.isCritical ?? false,
         flickDirection:
             defaultNoteProperties.value.flickDirection ?? note?.flickDirection ?? 'none',
+        shortenEarlyWindow:
+            defaultNoteProperties.value.shortenEarlyWindow ?? note?.shortenEarlyWindow ?? 'none',
         // isFake: defaultNoteProperties.value.isFake ?? note?.isFake ?? false,
         // sfx: defaultNoteProperties.value.sfx ?? note?.sfx ?? 'default',
         // isConnectorSeparator: defaultNoteProperties.value.isConnectorSeparator ?? false,

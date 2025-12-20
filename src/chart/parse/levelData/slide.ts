@@ -302,6 +302,20 @@ const directions = {
 //     1: 'bottom',
 // } as const
 
+const shortenEarlyWindowSchema = Type.Union([
+    Type.Literal(0),
+    Type.Literal(1),
+    Type.Literal(2),
+    Type.Literal(3)
+])
+
+const earlyWindows = {
+    0: 'none',
+    1: 'perfect',
+    2: 'great',
+    3: 'good'
+} as const
+
 const trimStart = <T extends string, U extends string>(
     name: T,
     prefix: U,
@@ -321,6 +335,7 @@ const toNoteObject = (
 ) => {
     const lane = getValue(entity, 'lane', laneSchema)
     const direction = getOptionalValue(entity, 'direction', directionSchema)
+    const earlyCut = getOptionalValue(entity, 'shortenEarlyWindow', shortenEarlyWindowSchema)
 
     const object: NoteObject = {
         group: getGroup(chart, timeScaleNames, entity),
@@ -328,6 +343,7 @@ const toNoteObject = (
         noteType: 'default',
         lane,
         flickDirection: direction === undefined ? "none" : directions[direction],
+        shortenEarlyWindow: earlyCut === undefined ? 'none' : earlyWindows[earlyCut]
     }
 
     // const [isFake, archetype1] = startsWith(entity.archetype, 'Fake')

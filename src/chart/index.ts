@@ -65,6 +65,8 @@ export type FlickDirection =
 
 // export type ConnectorLayer = 'top' | 'bottom'
 
+export type ShortenEarlyWindow = 'none' | 'perfect' | 'great' | 'good'
+
 export type NoteObject = {
     group: number
     beat: number
@@ -76,6 +78,7 @@ export type NoteObject = {
     // size: number
     // isCritical: boolean
     flickDirection: FlickDirection
+    shortenEarlyWindow: ShortenEarlyWindow
     // isFake: boolean
     // sfx: NoteSfx
     // isConnectorSeparator: boolean

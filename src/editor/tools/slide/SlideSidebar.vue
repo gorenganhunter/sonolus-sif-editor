@@ -13,6 +13,7 @@ import { i18n } from '../../../i18n'
 // import OptionalConnectorLayerField from '../../../modals/form/OptionalConnectorLayerField.vue'
 // import OptionalConnectorTypeField from '../../../modals/form/OptionalConnectorTypeField.vue'
 import OptionalFlickDirectionField from '../../../modals/form/OptionalFlickDirectionField.vue'
+import OptionalShortenEarlyWindowField from '../../../modals/form/OptionalShortenEarlyWindowField.vue'
 // import OptionalIsAttachedField from '../../../modals/form/OptionalIsAttachedField.vue'
 // import OptionalIsConnectorSeparatorField from '../../../modals/form/OptionalIsConnectorSeparatorField.vue'
 // import OptionalIsCriticalField from '../../../modals/form/OptionalIsCriticalField.vue'
@@ -35,6 +36,7 @@ const noteType = createModel('noteType')
 // const size = createModel('size')
 // const isCritical = createModel('isCritical')
 const flickDirection = createModel('flickDirection')
+const shortenEarlyWindow = createModel('shortenEarlyWindow')
 // const isFake = createModel('isFake')
 // const sfx = createModel('sfx')
 // const isConnectorSeparator = createModel('isConnectorSeparator')
@@ -58,6 +60,7 @@ const flickDirection = createModel('flickDirection')
         <OptionalSizeField v-model="size" />
         <OptionalIsCriticalField v-model="isCritical" /-->
         <OptionalFlickDirectionField v-model="flickDirection" />
+        <OptionalShortenEarlyWindowField v-model="shortenEarlyWindow" />
         <!--OptionalIsFakeField v-model="isFake" />
         <OptionalSfxField v-model="sfx" />
         <OptionalIsConnectorSeparatorField v-model="isConnectorSeparator" />

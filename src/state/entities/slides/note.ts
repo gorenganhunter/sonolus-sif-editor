@@ -9,6 +9,7 @@ import type {
     NoteObject,
     // NoteSfx,
     NoteType,
+    ShortenEarlyWindow,
 } from '../../../chart'
 
 export type NoteEntity = BaseEntity & {
@@ -22,6 +23,7 @@ export type NoteEntity = BaseEntity & {
     // spawnLane: number
     // isAttached: boolean
     flickDirection: FlickDirection
+    shortenEarlyWindow: ShortenEarlyWindow
     // isFake: boolean
     // sfx: NoteSfx
     // isConnectorSeparator: boolean
@@ -57,6 +59,7 @@ export const toNoteEntity = (
     lane: object.lane,
     // spawnLane: object.spawnLane,
     flickDirection: object.flickDirection,
+    shortenEarlyWindow: object.shortenEarlyWindow,
     // isFake: object.isFake,
 
     useInfoOf,

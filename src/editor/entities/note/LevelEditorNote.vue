@@ -94,5 +94,16 @@ const type = computed(() => {
         >
             #{{ entity.group }}
         </text>
+        <text
+            v-if="entity.shortenEarlyWindow !== 'none'"
+            :x="0.6"
+            y="-0.4"
+            font-size="0.4"
+            text-anchor="start"
+            dominant-baseline="middle"
+            fill="#b00"
+        >
+            -{{ entity.shortenEarlyWindow }}
+        </text>
     </g>
 </template>

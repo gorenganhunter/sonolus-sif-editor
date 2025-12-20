@@ -563,6 +563,13 @@
                 "up": "Up",
                 "down": "Down"
             },
+            "shortenEarlyWindow": {
+                "label": "Shorten Early Window",
+                "none": "None",
+                "perfect": "Perfect",
+                "great": "Great",
+                "good": "Good"
+            },
             "group": {
                 "label": "Group",
                 "default": "Default"

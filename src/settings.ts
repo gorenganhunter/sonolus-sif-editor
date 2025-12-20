@@ -38,6 +38,12 @@ const defaultNoteSlidePropertiesSchema = Type.Partial(
             // Type.Literal('downLeft'),
             // Type.Literal('downRight'),
         ]),
+        shortenEarlyWindow: Type.Union([
+            Type.Literal('none'),
+            Type.Literal('perfect'),
+            Type.Literal('great'),
+            Type.Literal('good'),
+        ]),
         // isFake: Type.Boolean(),
         // sfx: Type.Union([
         //     Type.Literal('default'),

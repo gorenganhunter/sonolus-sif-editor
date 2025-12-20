@@ -162,6 +162,11 @@ export const serializeSlidesToLevelDataEntities = (
                 value: flickDirections[info.note.flickDirection]
             })
 
+            if (info.note.shortenEarlyWindow !== 'none') entity.data.push({
+                name: "shortenEarlyWindow",
+                value: earlyWindows[info.note.shortenEarlyWindow]
+            })
+
             // if (!isFirst && !isLast && info.note.isAttached) {
             //     entity.data.push(
             //         {
@@ -322,6 +327,13 @@ const flickDirections = {
     // down: 3,
     // downLeft: 4,
     // downRight: 5,
+}
+
+const earlyWindows = {
+    none: 0,
+    perfect: 1,
+    great: 2,
+    good: 3
 }
 //
 // const sfxs = {
