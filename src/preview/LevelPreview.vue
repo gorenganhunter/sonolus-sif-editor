@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, useTemplateRef, watch, type Ref } from 'vue'
 import { time } from '../time'
-import { zoom } from './events'
+// import { zoom } from './events'
 import LevelPreviewStage from './LevelPreviewStage.vue'
 import LevelPreviewNotes from './LevelPreviewNotes.vue'
 import LevelPreviewConnectors from './LevelPreviewConnectors.vue'

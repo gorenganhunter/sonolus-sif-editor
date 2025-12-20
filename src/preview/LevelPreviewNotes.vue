@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { beats, keys, scaledTimes } from '.'
-import { colors } from '../colors'
+// import { colors } from '../colors'
 import { bpms } from '../history/bpms'
 import { cullEntities } from '../history/store'
 import { timeScales } from '../history/timeScales'

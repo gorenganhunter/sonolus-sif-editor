@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { view } from '../editor/view'
-import { rotate, resize, transparent, moveX, moveY } from './events'
+// import { rotate, resize, transparent, moveX, moveY } from './events'
 import { getLane, getLaneCenter, laneLayout } from './lane'
 import { transform } from './projection'
-import { stages } from '../history/stages'
+// import { stages } from '../history/stages'
 import { Vec } from "./Vec"
 
 const stages2 = computed(() =>
