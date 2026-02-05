@@ -25,7 +25,7 @@ export const createState = (chart: Chart, offset: number, filename?: string): St
         filename,
 
         bgm: { offset },
-        attr: chart.attr,
+        attr: chart.attr || 2,
         store: createStore(chart),
         bpms: createBpms(chart),
         // timeScales: createTimeScales(chart, bpms),

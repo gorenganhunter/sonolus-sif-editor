@@ -7,21 +7,14 @@ import { createState, type State } from '../state'
 import { cleanupWaveform } from '../waveform'
 
 const defaultChart: Chart = {
+    attr: 2,
     bpms: [
         {
             beat: 0,
             bpm: 60,
         },
     ],
-    groupCount: 2,
-    timeScales: [
-        {
-            beat: 0,
-            timeScale: 1,
-            group: 0
-        }
-    ],
-    slides: [],
+    slides: []
 }
 
 const index = ref(0)

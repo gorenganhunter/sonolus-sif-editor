@@ -37,7 +37,7 @@ export const serializeToSIFChart = (
           14 :
           11,
   effect_value: notes.length > 1 && (notes[notes.length - 1]!.lane === notes[notes.length - 2]!.lane) && (n.beat === notes[notes.length - 2]!.beat) ? beatToTime(bpms.value, notes[notes.length - 1]!.beat) - beatToTime(bpms.value, notes[notes.length - 2]!.beat) : 2,
-  notes_attribute: state.value.attr,
+  notes_attribute: state.value.attr || 2,
   notes_level: sid.id,
   position: n.lane + 5
 }))).sort((a, b) => a.timing_sec - b.timing_sec)
