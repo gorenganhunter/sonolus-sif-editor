@@ -1,3 +1,3 @@
-# Sonolus Aurora Editor
+# Sonolus SIF Editor
 
-https://aurora-editor.gorenganhunter.my.id
+https://sif-editor.gorenganhunter.my.id

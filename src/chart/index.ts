@@ -1,7 +1,8 @@
 export type Chart = {
+    attr: number
     bpms: BpmObject[]
-    groupCount: number
-    timeScales: TimeScaleObject[]
+    //    groupCount: number
+    //    timeScales: TimeScaleObject[]
     slides: NoteObject[][]
 }
 
@@ -27,8 +28,8 @@ export type FlickDirection =
     | 'none'
     | 'left'
     | 'right'
-    | 'up'
-    | 'down'
+//    | 'up'
+//    | 'down'
 /*    | 'up'
     | 'upLeft'
     | 'upRight'
@@ -68,17 +69,18 @@ export type FlickDirection =
 export type ShortenEarlyWindow = 'none' | 'perfect' | 'great' | 'good'
 
 export type NoteObject = {
-    group: number
+    //    group: number
     beat: number
-    noteType: NoteType
+    //    noteType: NoteType
     // isAttached: boolean
     lane: number
+    isStar: boolean
     // spawnLane: number
     // left: number
     // size: number
     // isCritical: boolean
     flickDirection: FlickDirection
-    shortenEarlyWindow: ShortenEarlyWindow
+    //    shortenEarlyWindow: ShortenEarlyWindow
     // isFake: boolean
     // sfx: NoteSfx
     // isConnectorSeparator: boolean

@@ -1,33 +1,34 @@
-import { type Static, type TSchema } from '@sinclair/typebox'
+import { Type, type Static, type TSchema } from '@sinclair/typebox'
 import { Value } from '@sinclair/typebox/value'
 import { type LevelDataEntity } from '@sonolus/core'
 import type { Chart } from '../..'
 import { parseBpmsToChart } from './bpm'
 import { parseSlidesToChart } from './slide'
-import { parseTimeScalesToChart } from './timeScale'
+// import { parseTimeScalesToChart } from './timeScale'
 
 export type TimeScaleNames = (string | undefined)[]
 
 export type ParseToChart = (
     chart: Chart,
-    timeScaleNames: TimeScaleNames,
+    // timeScaleNames: TimeScaleNames,
     entities: LevelDataEntity[],
 ) => void
 
 export const parseLevelDataChart = (entities: LevelDataEntity[]): Chart => {
     const chart: Chart = {
+        attr: entities[0] ? getValue(entities[0], "color", Type.Number()) : 2,
         bpms: [],
-        groupCount: 2,
-        timeScales: [],
+        //        groupCount: 2,
+        //        timeScales: [],
         slides: [],
     }
 
-    const timeScaleNames: TimeScaleNames = []
+    //    const timeScaleNames: TimeScaleNames = []
 
-    parseBpmsToChart(chart, timeScaleNames, entities)
-    parseTimeScalesToChart(chart, timeScaleNames, entities)
+    parseBpmsToChart(chart, entities)
+    //    parseTimeScalesToChart(chart, timeScaleNames, entities)
 
-    parseSlidesToChart(chart, timeScaleNames, entities)
+    parseSlidesToChart(chart, entities)
 
     return chart
 }
@@ -74,11 +75,11 @@ export const getOptionalRef = (entity: LevelDataEntity, name: string) => {
     return data.ref
 }
 
-export const getGroup = (chart: Chart, timeScaleNames: TimeScaleNames, entity: LevelDataEntity) => {
-    const group = getRef(entity, 'group')
-    const index = timeScaleNames.indexOf(group)
-    if (index === -1) throw new Error(`Invalid level: ref "${group}" not found`)
-
-    chart.groupCount = Math.max(chart.groupCount, index + 2)
-    return index
-}
+// export const getGroup = (chart: Chart, timeScaleNames: TimeScaleNames, entity: LevelDataEntity) => {
+//     const group = getRef(entity, 'group')
+//     const index = timeScaleNames.indexOf(group)
+//     if (index === -1) throw new Error(`Invalid level: ref "${group}" not found`)
+//
+//     chart.groupCount = Math.max(chart.groupCount, index + 2)
+//     return index
+// }

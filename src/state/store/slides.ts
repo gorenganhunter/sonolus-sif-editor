@@ -10,12 +10,12 @@ export type StoreSlides = {
             note: NoteEntity
             attachHead: NoteEntity
             attachTail: NoteEntity
-            segmentHead: NoteEntity
-            segmentTail: NoteEntity
-            activeHead?: NoteEntity
-            activeTail?: NoteEntity
-            guideHead?: NoteEntity
-            guideTail?: NoteEntity
+            // segmentHead: NoteEntity
+            // segmentTail: NoteEntity
+            // activeHead?: NoteEntity
+            // activeTail?: NoteEntity
+            // guideHead?: NoteEntity
+            // guideTail?: NoteEntity
         }[]
     >
     connector: Map<SlideId, ConnectorEntity[]>

@@ -14,23 +14,23 @@ const number = (def: number, min: number, max: number) =>
 
 const defaultNoteSlidePropertiesSchema = Type.Partial(
     Type.Object({
-        noteType: Type.Union([
-            Type.Literal('default'),
-            // Type.Literal('trace'),
-            Type.Literal('anchor'),
-            // Type.Literal('damage'),
-            // Type.Literal('forceTick'),
-            // Type.Literal('forceNonTick'),
-        ]),
+        // noteType: Type.Union([
+        //     Type.Literal('default'),
+        //     // Type.Literal('trace'),
+        //     Type.Literal('anchor'),
+        //     // Type.Literal('damage'),
+        //     // Type.Literal('forceTick'),
+        //     // Type.Literal('forceNonTick'),
+        // ]),
         // isAttached: Type.Boolean(),
         // size: Type.Number(),
-        // isCritical: Type.Boolean(),
+        isStar: Type.Boolean(),
         flickDirection: Type.Union([
             Type.Literal('none'),
             Type.Literal('left'),
             Type.Literal('right'),
-            Type.Literal('up'),
-            Type.Literal('down')
+            // Type.Literal('up'),
+            // Type.Literal('down')
             // Type.Literal('up'),
             // Type.Literal('upLeft'),
             // Type.Literal('upRight'),
@@ -38,12 +38,12 @@ const defaultNoteSlidePropertiesSchema = Type.Partial(
             // Type.Literal('downLeft'),
             // Type.Literal('downRight'),
         ]),
-        shortenEarlyWindow: Type.Union([
-            Type.Literal('none'),
-            Type.Literal('perfect'),
-            Type.Literal('great'),
-            Type.Literal('good'),
-        ]),
+        // shortenEarlyWindow: Type.Union([
+        //     Type.Literal('none'),
+        //     Type.Literal('perfect'),
+        //     Type.Literal('great'),
+        //     Type.Literal('good'),
+        // ]),
         // isFake: Type.Boolean(),
         // sfx: Type.Union([
         //     Type.Literal('default'),
@@ -68,7 +68,7 @@ const defaultNoteSlidePropertiesSchema = Type.Partial(
         //     Type.Literal('outIn'),
         //     Type.Literal('none'),
         // ]),
-        // connectorActiveIsCritical: Type.Boolean(),
+        // connectorActiveIsStar: Type.Boolean(),
         // connectorActiveIsFake: Type.Boolean(),
         // connectorGuideColor: Type.Union([
         //     Type.Literal('neutral'),
@@ -130,7 +130,7 @@ const settingsProperties = {
                 .Encode((values) => values),
             {
                 default: [
-                    ['utilities', 'reset', 'save', 'open'],
+                    ['sif', 'utilities', 'reset', 'save', 'open'],
                     ['bgm', 'speedUp', 'speedDown', 'stop', 'play'],
                     [
                         'redo',
@@ -144,10 +144,11 @@ const settingsProperties = {
                         'deselect',
                         'select',
                     ],
-                    ['note4', 'note3', 'note2', 'note1', 'note0', 'note'],
-                    ['slide5', 'slide4', 'slide3', 'slide2', 'slide1', 'slide0', 'slide'],
-                    ['timeScale', 'bpm'],
-                    ['groupPrev', 'groupNext', 'groupAll'],
+                    [/*'note4', 'note3', 'note2', 'note1', 'note0', */'note'],
+                    [/*'slide5', 'slide4', 'slide3', 'slide2', 'slide1', 'slide0', */'slide'],
+                    [/*'timeScale',*/ 'bpm'],
+                    ['attr'],
+                    //['groupPrev', 'groupNext', 'groupAll'],
                     [
                         'scrollLeft',
                         'scrollRight',
@@ -221,10 +222,10 @@ const settingsProperties = {
                 note: 'a',
                 slide: 's',
                 bpm: 'q',
-                timeScale: 'w',
-                groupPrev: 'e',
-                groupNext: 'r',
-                groupAll: 't',
+                // timeScale: 'w',
+                // groupPrev: 'e',
+                // groupNext: 'r',
+                // groupAll: 't',
                 scrollLeft: 'ArrowLeft',
                 scrollRight: 'ArrowRight',
                 scrollUp: 'ArrowUp',

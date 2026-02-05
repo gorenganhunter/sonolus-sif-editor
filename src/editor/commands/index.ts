@@ -10,9 +10,9 @@ import { divisionCustom } from './divisions/custom'
 import { eraser } from './eraser'
 import { flip } from './flip'
 import { fullscreen } from './fullscreen'
-import { groupAll } from './groups/groupAll'
-import { groupNext } from './groups/groupNext'
-import { groupPrev } from './groups/groupPrev'
+// import { groupAll } from './groups/groupAll'
+// import { groupNext } from './groups/groupNext'
+// import { groupPrev } from './groups/groupPrev'
 import { help } from './help'
 import { jumpDown } from './jumps/jumpDown'
 import { jumpUp } from './jumps/jumpUp'
@@ -36,13 +36,15 @@ import { snapping } from './snapping'
 import { speedDown } from './speeds/speedDown'
 import { speedUp } from './speeds/speedUp'
 import { stop } from './stop'
-import { timeScale } from './timeScale'
+// import { timeScale } from './timeScale'
 import { undo } from './undo'
 import { utilities } from './utilities'
 import { zoomXIn } from './zooms/zoomXIn'
 import { zoomXOut } from './zooms/zoomXOut'
 import { zoomYIn } from './zooms/zoomYIn'
 import { zoomYOut } from './zooms/zoomYOut'
+import { attr } from './attr'
+import { sif } from './sif'
 
 export type Command = {
     title: () => string
@@ -59,6 +61,7 @@ export const commands = {
     save,
     reset,
     utilities,
+    sif,
 
     play,
     stop,
@@ -78,26 +81,28 @@ export const commands = {
     redo,
 
     note,
-    note0: createNote(0),
-    note1: createNote(1),
-    note2: createNote(2),
-    note3: createNote(3),
-    note4: createNote(4),
+    // note0: createNote(0),
+    // note1: createNote(1),
+    // note2: createNote(2),
+    // note3: createNote(3),
+    // note4: createNote(4),
 
     slide,
-    slide0: createSlide(0),
-    slide1: createSlide(1),
-    slide2: createSlide(2),
-    slide3: createSlide(3),
-    slide4: createSlide(4),
-    slide5: createSlide(5),
+    // slide0: createSlide(0),
+    // slide1: createSlide(1),
+    // slide2: createSlide(2),
+    // slide3: createSlide(3),
+    // slide4: createSlide(4),
+    // slide5: createSlide(5),
 
     bpm,
-    timeScale,
 
-    groupPrev,
-    groupNext,
-    groupAll,
+    attr,
+    // timeScale,
+    //
+    // groupPrev,
+    // groupNext,
+    // groupAll,
 
     scrollLeft,
     scrollRight,

@@ -8,7 +8,7 @@ import { serializeToLevelDataEntities } from '../../../levelData/entities/serial
 import type { Entity, EntityOfType, EntityType } from '../../../state/entities'
 import { removeBpm } from '../../../state/mutations/bpm'
 import { removeNote } from '../../../state/mutations/slides/note'
-import { removeTimeScale } from '../../../state/mutations/timeScale'
+// import { removeTimeScale } from '../../../state/mutations/timeScale'
 import { createStore } from '../../../state/store/creates'
 import { createTransaction, type Transaction } from '../../../state/transaction'
 import { interpolate } from '../../../utils/interpolate'
@@ -36,11 +36,11 @@ export const cut: Command = {
             entities: serializeToLevelDataEntities(
                 createStore({
                     bpms: getEntities(entities, 'bpm'),
-                    timeScales: getEntities(entities, 'timeScale'),
-                    groupCount: state.value.groupCount,
+                    // timeScales: getEntities(entities, 'timeScale'),
+                    // groupCount: state.value.groupCount,
                     slides: getSlides(entities),
                 }),
-                state.value.groupCount,
+                // state.value.groupCount,
             ),
         }
         const text = JSON.stringify(data)
@@ -105,7 +105,7 @@ const removes: {
     [T in Entity as T['type']]?: (transaction: Transaction, entity: T) => void
 } = {
     bpm: removeBpm,
-    timeScale: removeTimeScale,
+    // timeScale: removeTimeScale,
 
     note: removeNote,
 }

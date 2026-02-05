@@ -1,13 +1,13 @@
 import type { Tool } from '..'
 import type {
-    ConnectorEase,
-    ConnectorGuideColor,
-    ConnectorLayer,
-    ConnectorType,
+    // ConnectorEase,
+    // ConnectorGuideColor,
+    // ConnectorLayer,
+    // ConnectorType,
     FlickDirection,
-    NoteSfx,
+    // NoteSfx,
     NoteType,
-    TimeScaleEase,
+    // TimeScaleEase,
 } from '../../../chart'
 import { pushState, replaceState, state } from '../../../history'
 import { selectedEntities } from '../../../history/selectedEntities'
@@ -18,7 +18,7 @@ import { interpolate } from '../../../utils/interpolate'
 import { notify } from '../../notification'
 import { focusViewAtBeat, setViewHover, view, xToLane, yToTime, yToValidBeat } from '../../view'
 import { editSelectedNote } from '../note'
-import { editSelectedTimeScale } from '../timeScale'
+// import { editSelectedTimeScale } from '../timeScale'
 import {
     hitAllEntitiesAtPoint,
     hitAllEntitiesInSelection,
@@ -28,26 +28,26 @@ import {
 import BrushSidebar from './BrushSidebar.vue'
 
 export type BrushProperties = {
-    group?: number
-    noteType?: NoteType
-    isAttached?: boolean
-    size?: number
-    isCritical?: boolean
-    flickDirection?: FlickDirection
-    isFake?: boolean
-    sfx?: NoteSfx
-    isConnectorSeparator?: boolean
-    connectorType?: ConnectorType
-    connectorEase?: ConnectorEase
-    connectorActiveIsCritical?: boolean
-    connectorActiveIsFake?: boolean
-    connectorGuideColor?: ConnectorGuideColor
-    connectorGuideAlpha?: number
-    connectorLayer?: ConnectorLayer
-    timeScale?: number
-    skip?: number
-    ease?: TimeScaleEase
-    hideNotes?: boolean
+    // group?: number
+    // noteType?: NoteType
+    // isAttached?: boolean
+    // size?: number
+    isStar?: boolean
+    // flickDirection?: FlickDirection
+    // isFake?: boolean
+    // sfx?: NoteSfx
+    // isConnectorSeparator?: boolean
+    // connectorType?: ConnectorType
+    // connectorEase?: ConnectorEase
+    // connectorActiveIsStar?: boolean
+    // connectorActiveIsFake?: boolean
+    // connectorGuideColor?: ConnectorGuideColor
+    // connectorGuideAlpha?: number
+    // connectorLayer?: ConnectorLayer
+    // timeScale?: number
+    // skip?: number
+    // ease?: TimeScaleEase
+    // hideNotes?: boolean
 }
 
 export let brushProperties: BrushProperties = {}
@@ -58,10 +58,10 @@ export const setBrushProperties = (properties: BrushProperties) => {
 
 let active:
     | {
-          lane: number
-          time: number
-          count: number
-      }
+        lane: number
+        time: number
+        count: number
+    }
     | undefined
 
 export const brush: Tool = {
@@ -157,7 +157,7 @@ type Apply<T> = (transaction: Transaction, entity: T, object: BrushProperties) =
 const applies: {
     [T in Entity as T['type']]?: Apply<T>
 } = {
-    timeScale: editSelectedTimeScale,
+    // timeScale: editSelectedTimeScale,
     note: editSelectedNote,
 }
 

@@ -6,10 +6,10 @@ import { i18n } from '../../i18n'
 import type { Entity } from '../../state/entities'
 import { toBpmEntity, type BpmEntity } from '../../state/entities/bpm'
 import { toNoteEntity, type NoteEntity } from '../../state/entities/slides/note'
-import { toTimeScaleEntity, type TimeScaleEntity } from '../../state/entities/timeScale'
+// import { toTimeScaleEntity, type TimeScaleEntity } from '../../state/entities/timeScale'
 import { addBpm, removeBpm } from '../../state/mutations/bpm'
 import { replaceNote } from '../../state/mutations/slides/note'
-import { addTimeScale, removeTimeScale } from '../../state/mutations/timeScale'
+// import { addTimeScale, removeTimeScale } from '../../state/mutations/timeScale'
 import { getInStoreGrid } from '../../state/store/grid'
 import { createTransaction, type Transaction } from '../../state/transaction'
 import { interpolate } from '../../utils/interpolate'
@@ -309,14 +309,14 @@ const toMovedBpmObject = (entity: BpmEntity, beat: number): BpmObject => ({
     bpm: entity.bpm,
 })
 
-const toMovedTimeScaleObject = (entity: TimeScaleEntity, beat: number): TimeScaleObject => ({
-    group: entity.group,
-    beat,
-    timeScale: entity.timeScale,
-    // skip: entity.skip,
-    // ease: entity.ease,
-    // hideNotes: entity.hideNotes,
-})
+// const toMovedTimeScaleObject = (entity: TimeScaleEntity, beat: number): TimeScaleObject => ({
+//     group: entity.group,
+//     beat,
+//     timeScale: entity.timeScale,
+//     // skip: entity.skip,
+//     // ease: entity.ease,
+//     // hideNotes: entity.hideNotes,
+// })
 
 const toMovedNoteObject = (
     entities: Entity[],
@@ -369,8 +369,8 @@ const creates: {
     [T in Entity as T['type']]?: Create<T>
 } = {
     bpm: (entities, entity, startLane, lane, beat) => toBpmEntity(toMovedBpmObject(entity, beat)),
-    timeScale: (entities, entity, startLane, lane, beat) =>
-        toTimeScaleEntity(toMovedTimeScaleObject(entity, beat)),
+    // timeScale: (entities, entity, startLane, lane, beat) =>
+    //     toTimeScaleEntity(toMovedTimeScaleObject(entity, beat)),
 
     note: (entities, entity, startLane, lane, beat, focus) =>
         toNoteEntity(
@@ -405,18 +405,18 @@ const moves: {
 
         return addBpm(transaction, object)
     },
-    timeScale: (transaction, entities, entity, startLane, lane, beat) => {
-        const object = toMovedTimeScaleObject(entity, beat)
-
-        if (entity.beat) removeTimeScale(transaction, entity)
-
-        const overlap = getInStoreGrid(transaction.store.grid, 'timeScale', object.beat)?.find(
-            (entity) => entity.beat === object.beat && entity.group === object.group,
-        )
-        if (overlap) removeTimeScale(transaction, overlap)
-
-        return addTimeScale(transaction, object)
-    },
+    // timeScale: (transaction, entities, entity, startLane, lane, beat) => {
+    //     const object = toMovedTimeScaleObject(entity, beat)
+    //
+    //     if (entity.beat) removeTimeScale(transaction, entity)
+    //
+    //     const overlap = getInStoreGrid(transaction.store.grid, 'timeScale', object.beat)?.find(
+    //         (entity) => entity.beat === object.beat && entity.group === object.group,
+    //     )
+    //     if (overlap) removeTimeScale(transaction, overlap)
+    //
+    //     return addTimeScale(transaction, object)
+    // },
 
     note: (transaction, entities, entity, startLane, lane, beat, focus) => {
         const object = toMovedNoteObject(entities, entity, startLane, lane, beat, focus)

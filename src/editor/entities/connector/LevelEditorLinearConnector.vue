@@ -37,11 +37,12 @@ const graphic = computed(() => {
     const yTail = tTail * ups.value
 
     // const { fill, gradient } = getColor(id, segmentHead, segmentTail, tHead, tTail)
-    const fill = "#ffffff55"
+    const fill = xHead === xTail ? "#ffffff55" : "#00ffff55"
+    const w = xHead === xTail ? 0.5 : 0.05
 
     return {
         polygon: {
-            points: `${xHead - 0.5},${yHead} ${xTail - 0.5},${yTail} ${xTail + 0.5},${yTail} ${xHead + 0.5},${yHead}`,
+            points: `${xHead - w},${yHead} ${xTail - w},${yTail} ${xTail + w},${yTail} ${xHead + w},${yHead}`,
             fill,
         },
         // gradient,

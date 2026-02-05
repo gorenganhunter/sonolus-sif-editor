@@ -1,6 +1,6 @@
 <script lang="ts">
 const layers = {
-    timeScale: 0,
+    // timeScale: 0,
     bpm: 1,
 
     connector: 10,
@@ -18,17 +18,18 @@ import type { Entity } from '../../state/entities'
 import { hoveredEntities, view } from '../view'
 
 const isEntityVisible = (entity: Entity) => {
-    if (view.group === undefined) return true
-
-    switch (entity.type) {
-        case 'bpm':
-            return true
-        case 'timeScale':
-        case 'note':
-            return entity.group === view.group
-        case 'connector':
-            return entity.head.group === view.group || entity.tail.group === view.group
-    }
+    return true
+    // if (view.group === undefined) return true
+    //
+    // switch (entity.type) {
+    //     case 'bpm':
+    //         return true
+    //     // case 'timeScale':
+    //     case 'note':
+    //         return entity.group === view.group
+    //     case 'connector':
+    //         return entity.head.group === view.group || entity.tail.group === view.group
+    // }
 }
 
 const culledEntities = computed(() => [...cullAllEntities(keys.value.min, keys.value.max)])
@@ -37,7 +38,7 @@ const visibleEntities = computed(() =>
     culledEntities.value.filter((entity) => {
         switch (entity.type) {
             case 'bpm':
-            case 'timeScale':
+            // case 'timeScale':
             case 'note':
                 return entity.beat >= beats.value.min && entity.beat <= beats.value.max
             case 'connector':

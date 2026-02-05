@@ -5,21 +5,21 @@ import { i18n } from '../../../i18n'
 import type { Entity } from '../../../state/entities'
 import type { BpmEntity } from '../../../state/entities/bpm'
 import type { NoteEntity } from '../../../state/entities/slides/note'
-import type { TimeScaleEntity } from '../../../state/entities/timeScale'
+// import type { TimeScaleEntity } from '../../../state/entities/timeScale'
 import { createTransaction, type Transaction } from '../../../state/transaction'
 import { interpolate } from '../../../utils/interpolate'
 import { notify } from '../../notification'
 import { editBpm, editSelectedBpm } from '../../tools/bpm'
 import { editNote, editSelectedNote } from '../../tools/note'
-import { editSelectedTimeScale, editTimeScale } from '../../tools/timeScale'
+// import { editSelectedTimeScale, editTimeScale } from '../../tools/timeScale'
 import { view } from '../../view'
 
-export type EditableObject = Partial<BpmObject & TimeScaleObject & NoteObject>
+export type EditableObject = Partial<BpmObject & NoteObject>
 
-export type EditableEntity = BpmEntity | TimeScaleEntity | NoteEntity
+export type EditableEntity = BpmEntity | NoteEntity
 
 export const isEditableEntity = (entity: Entity) =>
-    entity.type === 'bpm' || entity.type === 'timeScale' || entity.type === 'note'
+    entity.type === 'bpm' || entity.type === 'note'
 
 export const editSelectedEditableEntities = (object: EditableObject) => {
     if (selectedEntities.value.length === 1) {
@@ -61,32 +61,32 @@ export const editSelectedEditableEntities = (object: EditableObject) => {
 
 let editEntity:
     | {
-          [T in Entity as T['type']]?: (entity: T, object: EditableObject) => void
-      }
+        [T in Entity as T['type']]?: (entity: T, object: EditableObject) => void
+    }
     | undefined
 
 const getEditEntity = () =>
-    (editEntity ??= {
-        bpm: editBpm,
-        timeScale: editTimeScale,
+(editEntity ??= {
+    bpm: editBpm,
+    // timeScale: editTimeScale,
 
-        note: editNote,
-    })
+    note: editNote,
+})
 
 let editSelectedEntity:
     | {
-          [T in Entity as T['type']]?: (
-              transaction: Transaction,
-              entity: T,
-              object: EditableObject,
-          ) => Entity[]
-      }
+        [T in Entity as T['type']]?: (
+            transaction: Transaction,
+            entity: T,
+            object: EditableObject,
+        ) => Entity[]
+    }
     | undefined
 
 const getEditSelectedEntity = () =>
-    (editSelectedEntity ??= {
-        bpm: editSelectedBpm,
-        timeScale: editSelectedTimeScale,
+(editSelectedEntity ??= {
+    bpm: editSelectedBpm,
+    // timeScale: editSelectedTimeScale,
 
-        note: editSelectedNote,
-    })
+    note: editSelectedNote,
+})

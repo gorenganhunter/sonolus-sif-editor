@@ -1,4 +1,4 @@
-import { bisect, search } from '../../utils/ordered'
+import { bisect } from '../../utils/ordered'
 
 export type Integral = {
     x: number
@@ -26,7 +26,7 @@ export const integrate = <T extends Integral>(integrals: T[]) => {
 }
 
 export const findIntegral = <T extends Integral>(integrals: T[], key: 'x' | 'y', value: number) => {
-    const index = search(integrals, key, value)
+    const index = bisect(integrals, key, value)
 
     const integral = integrals[integrals[index]?.[key] === value ? index : index - 1]
     if (!integral) throw new Error('Unexpected integral not found')

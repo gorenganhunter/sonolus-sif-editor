@@ -20,20 +20,20 @@ export const bisect = <K extends PropertyKey>(
     return lo
 }
 
-export const search = <K extends PropertyKey>(
-    array: Record<K, number>[],
-    key: K,
-    value: number,
-) => {
-    let i = 0
-
-    while (i < array.length && array[i]![key] < value) {
-        i++
-    }
-
-    return i
-}
-
+// export const search = <K extends PropertyKey>(
+//     array: Record<K, number>[],
+//     key: K,
+//     value: number,
+// ) => {
+//     let i = 0
+//
+//     while (i < array.length && array[i]![key] < value) {
+//         i++
+//     }
+//
+//     return i
+// }
+//
 export const addToOrdered = <T extends Record<K, number>, K extends PropertyKey>(
     array: T[],
     key: K,

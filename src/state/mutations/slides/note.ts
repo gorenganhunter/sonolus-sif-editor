@@ -5,13 +5,13 @@ import { addToStoreGrid, removeFromStoreGrid } from '../../store/grid'
 import type { Transaction } from '../../transaction'
 
 export const addNote = (
-    { store, addToGroup }: Transaction,
+    { store }: Transaction,
     slideId: SlideId,
     object: NoteObject,
 ) => {
     const note = toNoteEntity(slideId, object)
     addToStoreGrid(store.grid, note, note.beat)
-    addToGroup(note.group)
+    // addToGroup(note.group)
 
     const notes = store.slides.note.get(slideId)
     store.slides.note.set(slideId, notes ? [...notes, note] : [note])
@@ -21,7 +21,7 @@ export const addNote = (
 }
 
 export const replaceNote = (
-    { store, addToGroup }: Transaction,
+    { store }: Transaction,
     note: NoteEntity,
     object: NoteObject,
 ) => {
@@ -29,7 +29,7 @@ export const replaceNote = (
 
     const newNote = toNoteEntity(note.slideId, object)
     addToStoreGrid(store.grid, newNote, newNote.beat)
-    addToGroup(newNote.group)
+    // addToGroup(newNote.group)
 
     const notes = store.slides.note.get(note.slideId)
     if (!notes) throw new Error('Unexpected notes not found')

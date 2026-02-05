@@ -8,7 +8,7 @@ import { note } from './note'
 import { paste } from './paste'
 import { select } from './select'
 import { slide } from './slide'
-import { timeScale } from './timeScale'
+// import { timeScale } from './timeScale'
 
 export type Tool = {
     sidebar?: Component
@@ -32,7 +32,7 @@ export const tools = {
     slide,
 
     bpm,
-    timeScale,
+    // timeScale,
 }
 
 export type ToolName = keyof typeof tools

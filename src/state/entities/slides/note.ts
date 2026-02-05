@@ -17,13 +17,14 @@ export type NoteEntity = BaseEntity & {
     hitbox: object
 
     slideId: SlideId
-    group: number
-    noteType: NoteType
+    // group: number
+    // noteType: NoteType
     lane: number
+    isStar: boolean
     // spawnLane: number
     // isAttached: boolean
     flickDirection: FlickDirection
-    shortenEarlyWindow: ShortenEarlyWindow
+    // shortenEarlyWindow: ShortenEarlyWindow
     // isFake: boolean
     // sfx: NoteSfx
     // isConnectorSeparator: boolean
@@ -52,14 +53,15 @@ export const toNoteEntity = (
     },
 
     slideId,
-    group: object.group,
+    // group: object.group,
     beat: object.beat,
-    noteType: object.noteType,
+    // noteType: object.noteType,
     // isAttached: object.isAttached,
     lane: object.lane,
+    isStar: object.isStar,
     // spawnLane: object.spawnLane,
     flickDirection: object.flickDirection,
-    shortenEarlyWindow: object.shortenEarlyWindow,
+    // shortenEarlyWindow: object.shortenEarlyWindow,
     // isFake: object.isFake,
 
     useInfoOf,

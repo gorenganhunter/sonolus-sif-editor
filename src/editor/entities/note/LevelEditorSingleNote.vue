@@ -27,6 +27,7 @@ const colors = {
                 /*entity.isCritical ? 'yellow' : entity.flickDirection !== 'none' ? 'red' : 'cyan'*/
             ]
         "
+        :isStar="entity.isStar"
     />
     <!--component
         :is="arrowComponents[entity.isCritical ? 'yellow' : 'red'][entity.flickDirection]"

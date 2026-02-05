@@ -32,11 +32,11 @@ export const copy: Command = {
             entities: serializeToLevelDataEntities(
                 createStore({
                     bpms: getEntities(entities, 'bpm'),
-                    timeScales: getEntities(entities, 'timeScale'),
-                    groupCount: state.value.groupCount,
+                    // timeScales: getEntities(entities, 'timeScale'),
+                    // groupCount: state.value.groupCount,
                     slides: getSlides(entities),
                 }),
-                state.value.groupCount,
+                // state.value.groupCount,
             ),
         }
         const text = JSON.stringify(data)

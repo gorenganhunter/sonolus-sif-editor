@@ -8,6 +8,7 @@ export type NoteFields = {
     // isCritical: boolean
     lane: boolean
     flickDirection: boolean
+    isStar: boolean
     // isFake: boolean
     // sfx: boolean
     // isConnectorSeparator: boolean
@@ -29,9 +30,9 @@ export const getNoteFields = (note: NoteEntity): NoteFields => {
 
     const isFirst = infos[0] === info
     const isLast = infos[infos.length - 1] === info
-    const isInActive = info.activeHead !== info.activeTail
-    const isActiveHead = info.activeHead === info.note
-    const isActiveTail = info.activeTail === info.note
+    // const isInActive = info.activeHead !== info.activeTail
+    // const isActiveHead = info.activeHead === info.note
+    // const isActiveTail = info.activeTail === info.note
     // const isInGuide = info.guideHead !== info.guideTail
     // const isGuideHead = info.guideHead === info.note
     // const isGuideTail = info.guideTail === info.note
@@ -41,8 +42,8 @@ export const getNoteFields = (note: NoteEntity): NoteFields => {
         lane: true, //isFirst || isLast || !note.isAttached,
         // size: isFirst || isLast || !note.isAttached,
         // isCritical: note.noteType !== 'anchor' && note.noteType !== 'damage',
-        flickDirection:
-            (note.noteType === 'default'),
+        flickDirection: false,
+        isStar: true
         // isFake: note.noteType !== 'anchor',
         // sfx: !note.isFake,
         // isConnectorSeparator: !isFirst && !isLast,

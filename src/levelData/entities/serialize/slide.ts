@@ -3,7 +3,7 @@ import type { NoteEntity } from '../../../state/entities/slides/note'
 import type { Store } from '../../../state/store'
 
 export const serializeSlidesToLevelDataEntities = (
-    timeScaleGroupEntities: LevelDataEntity[],
+    // timeScaleGroupEntities: LevelDataEntity[],
     store: Store,
     getName: () => string,
 ) => {
@@ -20,20 +20,26 @@ export const serializeSlidesToLevelDataEntities = (
 
     const allowSimLines = new Map<number, NoteEntity[]>()
 
+    let id = 0
+
     for (const infos of store.slides.info.values()) {
         let prev: LevelDataEntity | undefined
         let prevConnector: LevelDataEntity | undefined
+        let sid: number = 0
+        if (infos[0]?.note.flickDirection !== "none") {
+            sid = ++id
+        }
         for (const [i, { note }] of infos.entries()) {
-            const timeScaleGroup = timeScaleGroupEntities[note.group]
-            if (!timeScaleGroup) throw new Error(`Unexpected missing group ${note.group}`)
+            // const timeScaleGroup = timeScaleGroupEntities[note.group]
+            // if (!timeScaleGroup) throw new Error(`Unexpected missing group ${note.group}`)
 
             const entity: LevelDataEntity = {
                 archetype: '',
                 data: [
-                    {
-                        name: 'group',
-                        ref: (timeScaleGroup.name ??= getName()),
-                    },
+                    // {
+                    //     name: 'group',
+                    //     ref: (timeScaleGroup.name ??= getName()),
+                    // },
                     {
                         name: EngineArchetypeDataName.Beat,
                         value: note.beat,
@@ -42,6 +48,10 @@ export const serializeSlidesToLevelDataEntities = (
                         name: 'lane',
                         value: note.lane
                     },
+                    {
+                        name: 'star',
+                        value: note.isStar ? 1 : 0
+                    }
                     // {
                     //     name: 'direction',
                     //     value: flickDirections[note.flickDirection],
@@ -88,15 +98,15 @@ export const serializeSlidesToLevelDataEntities = (
             entities.push(entity)
             noteEntities.set(note, entity)
 
-            if (prev) {
-                if (!prev.name) prev.name = getName()
-                entity.name = getName()
-            }
-            // prev?.data.push({
-            //     name: 'next',
-            //     ref: (entity.name ??= getName()),
-            // })
-            prev = entity
+            // if (prev) {
+            //     if (!prev.name) prev.name = getName()
+            //     entity.name = getName()
+            // }
+            // // prev?.data.push({
+            // //     name: 'next',
+            // //     ref: (entity.name ??= getName()),
+            // // })
+            // prev = entity
         }
 
         let head: NoteEntity | undefined
@@ -106,38 +116,38 @@ export const serializeSlidesToLevelDataEntities = (
 
             const isFirst = i === 0
             const isLast = i === infos.length - 1
-            const isInActive = info.activeHead !== info.activeTail
-            const isActiveHead = info.activeHead === info.note
-            const isActiveTail = info.activeTail === info.note
+            // const isInActive = info.activeHead !== info.activeTail
+            // const isActiveHead = info.activeHead === info.note
+            // const isActiveTail = info.activeTail === info.note
             const isFlick = info.note.flickDirection !== "none"
 
             // entity.archetype = info.note.isFake ? 'Fake' : ''
 
-            if (info.note.noteType === 'anchor') {
-                entity.archetype += 'Ignored'
-                /*else if (info.note.noteType === 'damage') {
-                   entity.archetype += 'Accident'
-               } else {*/
-                // entity.archetype += info.note.isCritical ? 'Critical' : 'Normal'
+            // if (info.note.noteType === 'anchor') {
+            //     entity.archetype += 'Ignored'
+            /*else if (info.note.noteType === 'damage') {
+               entity.archetype += 'Accident'
+           } else {*/
+            // entity.archetype += info.note.isCritical ? 'Critical' : 'Normal'
 
-                /*if (info.note.noteType === 'trace') {
-                    if (isInActive)
-                        entity.archetype += isActiveHead ? 'Head' : isActiveTail ? 'Tail' : ''
-                    entity.archetype += isFlick ? 'TraceFlick' : 'Trace'
-                } else if (info.note.noteType === 'forceTick') {
-                    entity.archetype += 'Tick'*/
-                // } else if (!isInActive) {
-                //     entity.archetype += isFlick ? 'Flick' : 'Tap'
-                // } else if (isActiveHead) {
-                //     entity.archetype += isFlick ? 'HeadFlick' : 'HeadTap'
-                // } else if (isActiveTail) {
-                //     entity.archetype += isFlick ? 'TailFlick' : 'TailRelease'
-            } else if (!isFirst && !isFlick) {
-                entity.archetype += 'HoldTick'
-            } else if (isFirst && !isLast) {
-                entity.archetype += 'HoldStart'
+            /*if (info.note.noteType === 'trace') {
+                if (isInActive)
+                    entity.archetype += isActiveHead ? 'Head' : isActiveTail ? 'Tail' : ''
+                entity.archetype += isFlick ? 'TraceFlick' : 'Trace'
+            } else if (info.note.noteType === 'forceTick') {
+                entity.archetype += 'Tick'*/
+            // } else if (!isInActive) {
+            //     entity.archetype += isFlick ? 'Flick' : 'Tap'
+            // } else if (isActiveHead) {
+            //     entity.archetype += isFlick ? 'HeadFlick' : 'HeadTap'
+            // } else if (isActiveTail) {
+            //     entity.archetype += isFlick ? 'TailFlick' : 'TailRelease'
+            if (isFlick) {
+                entity.archetype += 'Swing'
+            } else if (isLast && !isFirst) {
+                entity.archetype += 'Hold'
             } else {
-                entity.archetype += isFlick ? 'Flick' : 'Tap'
+                entity.archetype += 'Tap'
             }
             // }
 
@@ -146,7 +156,6 @@ export const serializeSlidesToLevelDataEntities = (
             // const tick = Math.round(info.note.beat * beatToTicks)
 
             if (
-                info.note.noteType === 'default' &&
                 (isFirst || isFlick)
             ) {
                 const notes = allowSimLines.get(info.note.beat)
@@ -160,12 +169,15 @@ export const serializeSlidesToLevelDataEntities = (
             if (isFlick) entity.data.push({
                 name: 'direction',
                 value: flickDirections[info.note.flickDirection]
+            }, {
+                name: "slide",
+                value: sid
             })
 
-            if (info.note.shortenEarlyWindow !== 'none') entity.data.push({
-                name: "shortenEarlyWindow",
-                value: earlyWindows[info.note.shortenEarlyWindow]
-            })
+            // if (info.note.shortenEarlyWindow !== 'none') entity.data.push({
+            //     name: "shortenEarlyWindow",
+            //     value: earlyWindows[info.note.shortenEarlyWindow]
+            // })
 
             // if (!isFirst && !isLast && info.note.isAttached) {
             //     entity.data.push(
@@ -251,16 +263,18 @@ export const serializeSlidesToLevelDataEntities = (
                     ],
                 }
 
-                if (prevConnector) {
-                    connector.data.push({
-                        name: 'prev',
-                        ref: prevConnector.name ??= getName()
-                    })
-                    prevConnector.data.push({
-                        name: 'next',
-                        ref: connector.name ??= getName()
-                    })
-                }
+                entity.data.push({ name: "prev", ref: getEntity(head).name! })
+
+                // if (prevConnector) {
+                //     connector.data.push({
+                //         name: 'prev',
+                //         ref: prevConnector.name ??= getName()
+                //     })
+                //     prevConnector.data.push({
+                //         name: 'next',
+                //         ref: connector.name ??= getName()
+                //     })
+                // }
 
                 // if (info.activeHead)
                 //     connector.data.push({
@@ -275,10 +289,16 @@ export const serializeSlidesToLevelDataEntities = (
                 //     })
 
                 entities.push(connector)
-                prevConnector = connector
+                head = undefined
+                // prevConnector = connector
             }
-
-            head = info.note
+            if (infos.length > 1 && i === infos.length - 2 && infos[infos.length - 1]!.note.lane === infos[infos.length - 2]!.note.lane) {
+                entity.data.push({
+                    name: "hold",
+                    value: 1
+                })
+                head = info.note
+            }
         }
     }
 
@@ -289,23 +309,25 @@ export const serializeSlidesToLevelDataEntities = (
 
         let prev: NoteEntity | undefined
         for (const note of notes) {
-            if (prev) {
-                entities.push({
-                    archetype: 'SimLine',
-                    data: [
-                        {
-                            name: 'l',
-                            ref: (getEntity(prev).name ??= getName()),
-                        },
-                        {
-                            name: 'r',
-                            ref: (getEntity(note).name ??= getName()),
-                        },
-                    ],
-                })
-            }
-
-            prev = note
+            const entity = getEntity(note)
+            entity.data.push({ name: "sim", value: 1 })
+            // if (prev) {
+            //     entities.push({
+            //         archetype: 'SimLine',
+            //         data: [
+            //             {
+            //                 name: 'l',
+            //                 ref: (getEntity(prev).name ??= getName()),
+            //             },
+            //             {
+            //                 name: 'r',
+            //                 ref: (getEntity(note).name ??= getName()),
+            //             },
+            //         ],
+            //     })
+            // }
+            //
+            // prev = note
         }
     }
 
@@ -317,10 +339,10 @@ export const serializeSlidesToLevelDataEntities = (
 
 const flickDirections = {
     none: 0,
-    left: 0,
+    left: -1,
     right: 1,
-    up: 2,
-    down: 3
+    // up: 2,
+    //"down: 3
     // up: 0,
     // upLeft: 1,
     // upRight: 2,

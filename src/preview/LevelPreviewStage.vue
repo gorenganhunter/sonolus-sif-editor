@@ -45,7 +45,7 @@ const stages2 = computed(() =>
 
 <template>
     <template v-for="({ cx, cy }, index) in stages2" :key="index">
-        <circle :cx :cy :r="0.1" stroke="#fff" stroke-width="0.02"/>
+        <circle :cx :cy :r="0.125" stroke="#ffffff99" stroke-width="0.02"/>
         <!--polygon :points stroke="white" :stroke-opacity="opacity" /-->
     </template>
     <!--template v-for="({ points, centers }, index) in lanes" :key="index">

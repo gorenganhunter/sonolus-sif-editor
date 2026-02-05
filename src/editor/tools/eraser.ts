@@ -5,7 +5,7 @@ import { i18n } from '../../i18n'
 import type { Entity } from '../../state/entities'
 import { removeBpm } from '../../state/mutations/bpm'
 import { removeNote } from '../../state/mutations/slides/note'
-import { removeTimeScale } from '../../state/mutations/timeScale'
+// import { removeTimeScale } from '../../state/mutations/timeScale'
 import { createTransaction, type Transaction } from '../../state/transaction'
 import { interpolate } from '../../utils/interpolate'
 import { notify } from '../notification'
@@ -112,14 +112,14 @@ const canRemoves: {
     [T in Entity as T['type']]?: (entity: T) => boolean
 } = {
     bpm: (entity) => entity.beat > 0,
-    timeScale: (entity) => entity.beat > 0
+    // timeScale: (entity) => entity.beat > 0
 }
 
 const removes: {
     [T in Entity as T['type']]?: (transaction: Transaction, entity: T) => void
 } = {
     bpm: removeBpm,
-    timeScale: removeTimeScale,
+    // timeScale: removeTimeScale,
 
     note: removeNote,
 }

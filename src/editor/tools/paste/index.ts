@@ -9,10 +9,10 @@ import type { Entity } from '../../../state/entities'
 import { toBpmEntity, type BpmEntity } from '../../../state/entities/bpm'
 import { createSlideId } from '../../../state/entities/slides'
 import { toNoteEntity, type NoteEntity } from '../../../state/entities/slides/note'
-import { toTimeScaleEntity, type TimeScaleEntity } from '../../../state/entities/timeScale'
+// import { toTimeScaleEntity, type TimeScaleEntity } from '../../../state/entities/timeScale'
 import { addBpm, removeBpm } from '../../../state/mutations/bpm'
 import { addNote } from '../../../state/mutations/slides/note'
-import { addTimeScale, removeTimeScale } from '../../../state/mutations/timeScale'
+// import { addTimeScale, removeTimeScale } from '../../../state/mutations/timeScale'
 import { getInStoreGrid } from '../../../state/store/grid'
 import { createTransaction, type Transaction } from '../../../state/transaction'
 import { interpolate } from '../../../utils/interpolate'
@@ -158,7 +158,7 @@ const getData = (text: string) => {
             beat: clipboardData.beat,
             entities: [
                 ...chart.bpms.map(toBpmEntity),
-                ...chart.timeScales.map(toTimeScaleEntity),
+                // ...chart.timeScales.map(toTimeScaleEntity),
 
                 ...chart.slides.flatMap((slide) => {
                     const slideId = createSlideId()
@@ -185,11 +185,11 @@ const toMovedBpmObject = (entity: BpmEntity, beat: number): BpmObject => ({
     bpm: entity.bpm,
 })
 
-const toMovedTimeScaleObject = (entity: TimeScaleEntity, beat: number): TimeScaleObject => ({
-    group: view.group ?? entity.group,
-    beat,
-    timeScale: entity.timeScale,
-})
+// const toMovedTimeScaleObject = (entity: TimeScaleEntity, beat: number): TimeScaleObject => ({
+//     group: view.group ?? entity.group,
+//     beat,
+//     timeScale: entity.timeScale,
+// })
 
 const flippedFlickDirections: Record<FlickDirection, FlickDirection> = {
     none: 'none',
@@ -227,8 +227,8 @@ const creates: {
     [T in Entity as T['type']]?: Create<T>
 } = {
     bpm: (entity, startLane, lane, beat) => toBpmEntity(toMovedBpmObject(entity, beat)),
-    timeScale: (entity, startLane, lane, beat) =>
-        toTimeScaleEntity(toMovedTimeScaleObject(entity, beat)),
+    // timeScale: (entity, startLane, lane, beat) =>
+    //     toTimeScaleEntity(toMovedTimeScaleObject(entity, beat)),
 
     note: (entity, startLane, lane, beat, flip) =>
         toNoteEntity(entity.slideId, toMovedNoteObject(entity, startLane, lane, beat, flip)),
@@ -256,16 +256,16 @@ const pastes: {
 
         return addBpm(transaction, object)
     },
-    timeScale: (transaction, entity, startLane, lane, beat) => {
-        const object = toMovedTimeScaleObject(entity, beat)
+    // timeScale: (transaction, entity, startLane, lane, beat) => {
+    //     const object = toMovedTimeScaleObject(entity, beat)
 
-        const overlap = getInStoreGrid(transaction.store.grid, 'timeScale', object.beat)?.find(
-            (entity) => entity.beat === object.beat && entity.group === object.group,
-        )
-        if (overlap) removeTimeScale(transaction, overlap)
-
-        return addTimeScale(transaction, object)
-    },
+    //     const overlap = getInStoreGrid(transaction.store.grid, 'timeScale', object.beat)?.find(
+    //         (entity) => entity.beat === object.beat && entity.group === object.group,
+    //     )
+    //         if(overlap) removeTimeScale(transaction, overlap)
+    //
+    //         return addTimeScale(transaction, object)
+    // },
 
     note: (transaction, entity, startLane, lane, beat, flip) => {
         const object = toMovedNoteObject(entity, startLane, lane, beat, flip)

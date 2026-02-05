@@ -74,7 +74,7 @@ export const note: Tool = {
                 hovered: [],
                 creating: [
                     toNoteEntity(createSlideId(), {
-                        group: view.group ?? 0,
+                        // group: view.group ?? 0,
                         beat,
                         lane,
                         ...getPropertiesFromSelection(),
@@ -134,7 +134,7 @@ export const note: Tool = {
             }
         } else {
             add({
-                group: view.group ?? 0,
+                // group: view.group ?? 0,
                 beat,
                 lane,
                 ...getPropertiesFromSelection(),
@@ -203,7 +203,7 @@ export const note: Tool = {
                     hovered: [],
                     creating: [
                         toNoteEntity(createSlideId(), {
-                            group: view.group ?? 0,
+                            // group: view.group ?? 0,
                             beat,
                             ...getPropertiesFromSelection(),
                             lane,
@@ -262,7 +262,7 @@ export const note: Tool = {
                 const beat = yToValidBeat(y)
 
                 add({
-                    group: view.group ?? 0,
+                    // group: view.group ?? 0,
                     beat,
                     ...getPropertiesFromSelection(),
                     lane: lane,
@@ -296,23 +296,23 @@ export const note: Tool = {
 
 export const editNote = (entity: NoteEntity, object: Partial<NoteObject>) => {
     edit(entity, {
-        group: object.group ?? entity.group,
+        // group: object.group ?? entity.group,
         beat: object.beat ?? entity.beat,
-        noteType: object.noteType ?? entity.noteType,
+        // noteType: object.noteType ?? entity.noteType,
         lane: object.lane ?? entity.lane,
         // size: object.size ?? entity.size,
-        // isCritical: object.isCritical ?? entity.isCritical,
+        isStar: object.isStar ?? entity.isStar,
         flickDirection: object.flickDirection ?? entity.flickDirection,
-        shortenEarlyWindow: object.shortenEarlyWindow ?? entity.shortenEarlyWindow,
+        // shortenEarlyWindow: object.shortenEarlyWindow ?? entity.shortenEarlyWindow,
         // isFake: object.isFake ?? entity.isFake,
         // sfx: object.sfx ?? entity.sfx,
         // isConnectorSeparator: object.isConnectorSeparator ?? entity.isConnectorSeparator,
         // connectorType: object.connectorType ?? entity.connectorType,
         // connectorEase: object.connectorEase ?? entity.connectorEase,
-        // connectorActiveIsCritical:
-        //     object.connectorActiveIsCritical ??
-        //     object.isCritical ??
-        //     entity.connectorActiveIsCritical,
+        // connectorActiveIsStar:
+        //     object.connectorActiveIsStar ??
+        //     object.isStar ??
+        //     entity.connectorActiveIsStar,
         // connectorActiveIsFake:
         //     object.connectorActiveIsFake ?? object.isFake ?? entity.connectorActiveIsFake,
         // connectorGuideColor: object.connectorGuideColor ?? entity.connectorGuideColor,
@@ -327,24 +327,24 @@ export const editSelectedNote = (
     object: Partial<NoteObject>,
 ) => {
     return replaceNote(transaction, entity, {
-        group: object.group ?? entity.group,
+        // group: object.group ?? entity.group,
         beat: object.beat ?? entity.beat,
-        noteType: object.noteType ?? entity.noteType,
+        // noteType: object.noteType ?? entity.noteType,
         // isAttached: object.isAttached ?? entity.isAttached,
         lane: object.lane ?? entity.lane,
         // size: object.size ?? entity.size,
-        // isCritical: object.isCritical ?? entity.isCritical,
+        isStar: object.isStar ?? entity.isStar,
         flickDirection: object.flickDirection ?? entity.flickDirection,
-        shortenEarlyWindow: object.shortenEarlyWindow ?? entity.shortenEarlyWindow,
+        // shortenEarlyWindow: object.shortenEarlyWindow ?? entity.shortenEarlyWindow,
         // isFake: object.isFake ?? entity.isFake,
         // sfx: object.sfx ?? entity.sfx,
         // isConnectorSeparator: object.isConnectorSeparator ?? entity.isConnectorSeparator,
         // connectorType: object.connectorType ?? entity.connectorType,
         // connectorEase: object.connectorEase ?? entity.connectorEase,
-        // connectorActiveIsCritical:
-        //     object.connectorActiveIsCritical ??
-        //     object.isCritical ??
-        //     entity.connectorActiveIsCritical,
+        // connectorActiveIsStar:
+        //     object.connectorActiveIsStar ??
+        //     object.isStar ??
+        //     entity.connectorActiveIsStar,
         // connectorActiveIsFake:
         //     object.connectorActiveIsFake ?? object.isFake ?? entity.connectorActiveIsFake,
         // connectorGuideColor: object.connectorGuideColor ?? entity.connectorGuideColor,
@@ -366,22 +366,22 @@ const getPropertiesFromSelection = () => {
     const note = getNoteFromSelection()
 
     return {
-        noteType: defaultNoteProperties.value.noteType ?? note?.noteType ?? 'default',
+        // noteType: defaultNoteProperties.value.noteType ?? note?.noteType ?? 'default',
         // isAttached: defaultNoteProperties.value.isAttached ?? note?.isAttached ?? false,
         // size: defaultNoteProperties.value.size ?? note?.size ?? 3,
-        // isCritical: defaultNoteProperties.value.isCritical ?? note?.isCritical ?? false,
+        isStar: defaultNoteProperties.value.isStar ?? note?.isStar ?? false,
         flickDirection:
             defaultNoteProperties.value.flickDirection ?? note?.flickDirection ?? 'none',
-        shortenEarlyWindow:
-            defaultNoteProperties.value.shortenEarlyWindow ?? note?.shortenEarlyWindow ?? 'none',
+        // // shortenEarlyWindow:
+        //     defaultNoteProperties.value.shortenEarlyWindow ?? note?.shortenEarlyWindow ?? 'none',
         // isFake: defaultNoteProperties.value.isFake ?? note?.isFake ?? false,
         // sfx: defaultNoteProperties.value.sfx ?? note?.sfx ?? 'default',
         // isConnectorSeparator: defaultNoteProperties.value.isConnectorSeparator ?? false,
         // connectorType: defaultNoteProperties.value.connectorType ?? 'active',
         // connectorEase: defaultNoteProperties.value.connectorEase ?? 'linear',
-        // connectorActiveIsCritical:
-        //     defaultNoteProperties.value.connectorActiveIsCritical ??
-        //     defaultNoteProperties.value.isCritical ??
+        // connectorActiveIsStar:
+        //     defaultNoteProperties.value.connectorActiveIsStar ??
+        //     defaultNoteProperties.value.isStar ??
         //     false,
         // connectorActiveIsFake:
         //     defaultNoteProperties.value.connectorActiveIsFake ??
@@ -395,7 +395,7 @@ const getPropertiesFromSelection = () => {
 
 const tryFind = (x: number, y: number): [NoteEntity] | [undefined, number, number] => {
     const [hit] = hitEntitiesAtPoint('note', x, y)
-        .filter((entity) => view.group === undefined || entity.group === view.group)
+        // .filter((entity) => view.group === undefined || entity.group === view.group)
         .sort((a, b) => +selectedEntities.value.includes(b) - +selectedEntities.value.includes(a))
 
     return hit ? [hit] : [undefined, yToValidBeat(y), xToValidLane(x)]

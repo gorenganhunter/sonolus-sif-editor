@@ -1,7 +1,7 @@
 import { Type } from '@sinclair/typebox'
 import { EngineArchetypeDataName, type LevelDataEntity } from '@sonolus/core'
 import {
-    getGroup,
+    // getGroup,
     getOptionalRef,
     getOptionalValue,
     getRef,
@@ -12,19 +12,31 @@ import {
 import type { Chart, NoteObject } from '../..'
 import { beatSchema } from './schemas'
 
-export const parseSlidesToChart: ParseToChart = (chart, timeScaleNames, entities) => {
-    const refs = new Map<string, LevelDataEntity>()
-    const slides = new Map<string, string[]>()
-    const used: string[] = []
+export const parseSlidesToChart: ParseToChart = (chart, entities) => {
+    const refs = new Map<string, NoteEntity>()
+    const slides = new Map<number, NoteEntity[]>()
+    const holdPrev = new Map<string, NoteEntity>()
 
     for (const entity of entities) {
+        if (!isNoteEntity(entity)) continue
         if (entity.name) refs.set(entity.name, entity)
 
-        if (!isNoteEntity(entity)) continue
+        if (entity.archetype === "TapNote") {
+            if (!entity.name) {
+                chart.slides.push([toNoteObject(chart, entity)])
+                continue
+            }
+        }
 
-        if (!entity.name) {
-            chart.slides.push([toNoteObject(chart, timeScaleNames, entity)])
+        if (entity.archetype === "HoldNote") {
+            holdPrev.set(entity.name!, refs.get(getRef(entity, "prev"))!)
             continue
+        }
+
+        const sid = getOptionalValue(entity, "slide", Type.Number())
+        if (sid) {
+            const slide = slides.get(sid)
+            slides.set(sid, slide ? [...slide, entity] : [entity])
         }
 
         // let slide = slides.get(entity.name)
@@ -48,45 +60,99 @@ export const parseSlidesToChart: ParseToChart = (chart, timeScaleNames, entities
         // }
     }
 
+    for (const [endName, head] of new Set(holdPrev.entries())) {
+        const end = refs.get(endName)!
+        if (head.archetype === "SwingNote") {
+            const sid = getOptionalValue(head, "slide", Type.Number())
+            if (!sid) continue
+            const slide = slides.get(sid)!
+            slides.set(sid, [...slide, end])
+            continue
+        } else {
+            chart.slides.push([toNoteObject(chart, head), toNoteObject(chart, end, head)])
+        }
+    }
+
+    const swings: NoteObject[][] = []
+
     for (const entity of entities) {
-        if (entity.archetype !== "HoldConnector") continue
-        const prev = getOptionalRef(entity, "prev")
+        if (!isNoteEntity(entity) || entity.archetype !== "SwingNote" || getOptionalValue(entity, "slide", Type.Number())) continue
+        const n = toNoteObject(chart, entity)
+        let honk = false
 
-        if (prev) continue
+        swings.forEach((s, i) => {
+            if (honk) return
+            if (!s.length) return
+            const ln = s[s.length - 1]!
+            if ((n.lane - ln.lane) === d[ln.flickDirection] && (n.beat - ln.beat) <= 0.5) {
+                swings[i]!.push(n)
+                honk = true
+            }
+        })
 
-        let slide = [getRef(entity, "head")]
-        let connector: LevelDataEntity | undefined = entity
-        used.push(slide[0]!)
+        if (honk) continue
 
-        while (true) {
-            let tail = getRef(connector!, "tail")
-            slide.push(tail)
-            used.push(tail)
-            const nextRef = getOptionalRef(connector!, "next")
-            if (!nextRef) break
-            connector = refs.get(nextRef)
+        swings.push([n])
+    }
+
+    for (const [endName, head] of new Set(holdPrev.entries())) {
+        const end = refs.get(endName)!
+        if (!isNoteEntity(head) || head.archetype !== "SwingNote" || getOptionalValue(head, "slide", Type.Number())) continue
+
+        const n = toNoteObject(chart, head)
+
+        for (const [i, s] of Object.entries(swings)) {
+            if (!s.length) return
+            const ln = s[s.length - 1]!
+
+            if (ln.beat === n.beat && ln.lane === n.lane) {
+                swings[parseInt(i)]!.push(toNoteObject(chart, end, head))
+                break
+            }
         }
 
-        slides.set(slide[0]!, slide)
+        // } else {
+        //     chart.slides.push([toNoteObject(chart, head), toNoteObject(chart, end, head)])
+        // }
     }
 
-    for (const entity of entities) {
-        if (!isNoteEntity(entity)) continue
-        if (!entity.name) continue
-        if (used.includes(entity.name)) continue
+    chart.slides.push(...swings)
 
-        chart.slides.push([toNoteObject(chart, timeScaleNames, entity)])
-    }
+    // for (const entity of entities) {
+    //     if (!isNoteEntity(entity)) continue
+    //     if (!entity.name) continue
+    //
+    //     const prev = getOptionalRef(entity, "prev")
+    //     if (prev) continue
+    //
+    //     let slide: string[] = []
+    //     let note: LevelDataEntity | undefined = entity
+    //     // used.push(slide[0]!)
+    //
+    //     while (true) {
+    //         slide.push(note!.name!)
+    //         used.push(note!.name!)
+    //         const nextRef = getOptionalRef(note!, "next")
+    //         if (!nextRef) break
+    //         note = refs.get(nextRef)
+    //     }
+    //
+    //     slides.set(slide[0]!, slide)
+    // }
+    //
+    // for (const entity of entities) {
+    //     if (!isNoteEntity(entity)) continue
+    //     if (!entity.name) continue
+    //     if (used.includes(entity.name)) continue
+    //
+    //     chart.slides.push([toNoteObject(chart, entity)])
+    // }
 
     for (const slide of new Set(slides.values())) {
         // let prevActiveHead: NoteObject | undefined
         chart.slides.push(
             slide
-                .map((name) => {
-                    const entity = refs.get(name)
-                    if (!entity) throw new Error(`Invalid level: ref "${name}" not found`)
-                    else if (!isNoteEntity(entity)) throw new Error(`Invalid level: ref "${name}" is not a note`)
-
+                .map((entity) => {
                     return {
                         entity,
                         beat: getValue(entity, EngineArchetypeDataName.Beat, beatSchema),
@@ -96,7 +162,7 @@ export const parseSlidesToChart: ParseToChart = (chart, timeScaleNames, entities
                 .map(({ entity }, i) => {
                     const object = toNoteObject(
                         chart,
-                        timeScaleNames,
+                        // timeScaleNames,
                         entity
                     )
 
@@ -116,10 +182,8 @@ export const parseSlidesToChart: ParseToChart = (chart, timeScaleNames, entities
 
 const noteArchetypeNames = [
     'TapNote',
-    'FlickNote',
-    'HoldStartNote',
-    'HoldTickNote',
-    'IgnoredNote'
+    'SwingNote',
+    'HoldNote',
 ] as const
 
 type NoteArchetypeName = (typeof noteArchetypeNames)[number]
@@ -136,23 +200,29 @@ const laneSchema = Type.Number({ minimum: -4, maximum: 4 })
 // const sizeSchema = Type.Number({ minimum: 0 })
 
 const directionSchema = Type.Union([
-    Type.Literal(0),
+    Type.Literal(-1),
     Type.Literal(1),
-    Type.Literal(2),
-    Type.Literal(3),
+    // Type.Literal(2),
+    // Type.Literal(3),
 ])
 
 const directions = {
-    0: 'left',
+    [-1]: 'left',
     1: 'right',
-    2: 'up',
-    3: 'down'
+    // 2: 'up',
+    // 3: 'down'
     // 0: 'up',
     // 1: 'upLeft',
     // 2: 'upRight',
     // 3: 'down',
     // 4: 'downLeft',
     // 5: 'downRight',
+} as const
+
+const d = {
+    left: -1,
+    right: 1,
+    none: 0
 } as const
 
 // const sfxSchema = Type.Union([
@@ -302,58 +372,60 @@ const directions = {
 //     1: 'bottom',
 // } as const
 
-const shortenEarlyWindowSchema = Type.Union([
-    Type.Literal(0),
-    Type.Literal(1),
-    Type.Literal(2),
-    Type.Literal(3)
-])
+// const shortenEarlyWindowSchema = Type.Union([
+//     Type.Literal(0),
+//     Type.Literal(1),
+//     Type.Literal(2),
+//     Type.Literal(3)
+// ])
+//
+// const earlyWindows = {
+//     0: 'none',
+//     1: 'perfect',
+//     2: 'great',
+//     3: 'good'
+// } as const
 
-const earlyWindows = {
-    0: 'none',
-    1: 'perfect',
-    2: 'great',
-    3: 'good'
-} as const
-
-const trimStart = <T extends string, U extends string>(
-    name: T,
-    prefix: U,
-): T extends `${U}${infer R}` ? R : T =>
-    (name.startsWith(prefix) ? name.slice(prefix.length) : name) as never
-
-const startsWith = <T extends string, U extends string>(
-    name: T,
-    prefix: U,
-): T extends `${U}${infer R}` ? [true, R] : [false, T] =>
-    (name.startsWith(prefix) ? [true, name.slice(prefix.length)] : [false, name]) as never
+// const trimStart = <T extends string, U extends string>(
+//     name: T,
+//     prefix: U,
+// ): T extends `${U}${infer R}` ? R : T =>
+//     (name.startsWith(prefix) ? name.slice(prefix.length) : name) as never
+//
+// const startsWith = <T extends string, U extends string>(
+//     name: T,
+//     prefix: U,
+// ): T extends `${U}${infer R}` ? [true, R] : [false, T] =>
+//     (name.startsWith(prefix) ? [true, name.slice(prefix.length)] : [false, name]) as never
 
 const toNoteObject = (
     chart: Chart,
-    timeScaleNames: TimeScaleNames,
+    // timeScaleNames: TimeScaleNames,
     entity: NoteEntity,
+    prev?: NoteEntity
 ) => {
-    const lane = getValue(entity, 'lane', laneSchema)
+    const lane = getValue(prev ? prev : entity, 'lane', laneSchema)
     const direction = getOptionalValue(entity, 'direction', directionSchema)
-    const earlyCut = getOptionalValue(entity, 'shortenEarlyWindow', shortenEarlyWindowSchema)
+    // const earlyCut = getOptionalValue(entity, 'shortenEarlyWindow', shortenEarlyWindowSchema)
 
     const object: NoteObject = {
-        group: getGroup(chart, timeScaleNames, entity),
+        // group: getGroup(chart, timeScaleNames, entity),
         beat: getValue(entity, EngineArchetypeDataName.Beat, beatSchema),
-        noteType: 'default',
+        // noteType: 'default',
         lane,
+        isStar: !!getOptionalValue(entity, "star", Type.Number()),
         flickDirection: direction === undefined ? "none" : directions[direction],
-        shortenEarlyWindow: earlyCut === undefined ? 'none' : earlyWindows[earlyCut]
+        // shortenEarlyWindow: earlyCut === undefined ? 'none' : earlyWindows[earlyCut]
     }
 
     // const [isFake, archetype1] = startsWith(entity.archetype, 'Fake')
     // object.isFake = isFake
 
-    if (entity.archetype === 'IgnoredNote') {
-        object.noteType = 'anchor'
-    } else if (entity.archetype === "HoldTickNote") {
-        object.noteType = 'default'
-    }
+    // if (entity.archetype === 'IgnoredNote') {
+    //     object.noteType = 'anchor'
+    // } else if (entity.archetype === "HoldTickNote") {
+    //     object.noteType = 'default'
+    // }
     /* else if (archetype1 === 'AccidentNote') {
     object.noteType = 'damage'
     object.flickDirection = 'none'
@@ -386,7 +458,7 @@ const toNoteObject = (
     //     if (archetype4 !== 'TickNote') object.noteType = 'forceNonTick'
     // }
 
-    if (entity.archetype !== 'FlickNote') object.flickDirection = 'none'
+    if (entity.archetype !== 'SwingNote') object.flickDirection = 'none'
 
     return object
 }

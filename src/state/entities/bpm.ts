@@ -9,7 +9,7 @@ export type BpmEntity = BaseEntity & {
 export const toBpmEntity = (object: BpmObject): BpmEntity => ({
     type: 'bpm',
     hitbox: {
-        lane: 6.5,
+        lane: 5,
         beat: object.beat,
         w: 0.5,
         h: 0.4,

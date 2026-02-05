@@ -1,6 +1,13 @@
 {
     "title": "English (English)",
     "commands": {
+        "attr": {
+            "title": "Note Attribute",
+            "changed": "Changed Attribute",
+            "modal": {
+                "title": "Note Attribute"
+            }
+        },
         "bgm": {
             "title": "BGM",
             "changed": "Changed BGM",
@@ -585,6 +592,9 @@
             },
             "isCritical": {
                 "label": "Critical"
+            },
+            "isStar": {
+                "label": "Star"
             },
             "isFake": {
                 "label": "Fake"

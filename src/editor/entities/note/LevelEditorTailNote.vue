@@ -5,24 +5,12 @@ import { bodyComponents } from './body'
 import { fakeMarkerComponent } from './fakeMarker'
 
 defineProps<{
-    entity: NoteEntity
-    isHighlighted: boolean
+    // entity: NoteEntity
+    // isHighlighted: boolean
 }>()
 </script>
 
 <template>
-    <component
-        :is="
-            bodyComponents.single[
-                entity.isCritical ? 'yellow' : entity.flickDirection !== 'none' ? 'red' : 'green'
-            ]
-        "
-        :size="entity.size"
-    />
-    <component
-        :is="arrowComponents[entity.isCritical ? 'yellow' : 'red'][entity.flickDirection]"
-        v-if="entity.flickDirection !== 'none'"
-        :size="entity.size"
-    />
-    <component :is="fakeMarkerComponent" v-if="entity.isFake" :size="entity.size" />
+    <circle :cx="0" :cy="0" :r="0.5"
+        class="scale-stroke" stroke-width="0.05" stroke="#ffffff55" fill="#ffffff55" />
 </template>
