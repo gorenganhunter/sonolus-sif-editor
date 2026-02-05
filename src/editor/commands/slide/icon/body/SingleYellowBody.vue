@@ -1,5 +1,9 @@
 <template>
-    <rect
+    <circle cx="-0.15" cy="0.15" r="0.35" stroke="#000" stroke-width="0.1" fill="#ffffff00" />
+    <circle cx="0.15" cy="-0.15" r="0.35" stroke="#000" stroke-width="0.1" fill="#ffffff00" />
+    <text x="-0.15" y="0.15" text-anchor="middle" dominant-baseline="middle" fill="#000" font-size="0.7">☆</text>
+    <text x="0.15" y="-0.15" text-anchor="middle" dominant-baseline="middle" fill="#000" font-size="0.7">☆</text>
+    <!--rect
         x="-0.5"
         y="-0.3"
         width="1"
@@ -11,5 +15,5 @@
         fill="#fffccc"
     />
     <rect x="-0.5" y="-0.1" width="0.2" height="0.2" fill="#fed84b" />
-    <rect x="0.3" y="-0.1" width="0.2" height="0.2" fill="#fed84b" />
+    <rect x="0.3" y="-0.1" width="0.2" height="0.2" fill="#fed84b" /-->
 </template>

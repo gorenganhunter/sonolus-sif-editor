@@ -17,15 +17,15 @@ const properties = computed(
 )
 
 const type = computed(() => {
-    const noteType = properties.value.noteType
+    const noteType = properties.value.isStar
 
-    if (noteType === 'trace') return 'trace'
-
-    if (noteType === 'anchor') return 'anchor'
-
-    if (noteType === 'damage') return 'damage'
-
-    if (noteType === 'forceTick') return 'tick'
+    // if (noteType === 'trace') return 'trace'
+    //
+    // if (noteType === 'anchor') return 'anchor'
+    //
+    // if (noteType === 'damage') return 'damage'
+    //
+    // if (noteType === 'forceTick') return 'tick'
 
     return 'single'
 })

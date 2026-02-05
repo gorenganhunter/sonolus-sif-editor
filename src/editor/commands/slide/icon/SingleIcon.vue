@@ -11,21 +11,21 @@ defineProps<{
 </script>
 
 <template>
-    <component :is="slideConnectorComponent" :properties />
+    <!--component :is="slideConnectorComponent" :properties /-->
     <component
         :is="
             bodyComponents.single[
-                properties.isCritical
+                properties.isStar
                     ? 'yellow'
-                    : properties.flickDirection && properties.flickDirection !== 'none'
-                      ? 'red'
+                    //: properties.flickDirection && properties.flickDirection !== 'none'
+                      //? 'red'
                       : 'cyan'
             ]
         "
     />
-    <component
+    <!--component
         :is="arrowComponents[properties.isCritical ? 'yellow' : 'red'][properties.flickDirection]"
         v-if="properties.flickDirection && properties.flickDirection !== 'none'"
     />
-    <component :is="fakeMarkerComponent" v-if="properties.isFake" />
+    <component :is="fakeMarkerComponent" v-if="properties.isFake" /-->
 </template>

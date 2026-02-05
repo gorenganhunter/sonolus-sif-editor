@@ -92,7 +92,7 @@ const notes = computed(() =>
         <!--polygon v-for="(polygon, index) in tapNotes" :key="index" v-bind="polygon" /-->
         <template v-for="({ cx, cy, s, a, stroke, fill, text, text2 }, index) in notes" :key="index">
             <circle :cx :cy :r="0.125 * s" :stroke :stroke-width="0.02 * s" :fill />
-            <text :x="cx" :y="cy" text-anchor="middle" dominant-baseline="central" fill="#ffff5555" :font-size="0.24 * s" :transform="`rotate(${a}, ${cx}, ${cy})`">{{ text2 }}</text>
+            <text :x="cx" :y="cy" text-anchor="middle" dominant-baseline="central" fill="#ffff5588" :font-size="0.24 * s" :transform="`rotate(${a}, ${cx}, ${cy})`">{{ text2 }}</text>
             <text :x="cx" :y="cy" text-anchor="middle" dominant-baseline="central" fill="#fff" :font-size="0.36 * s" :transform="`rotate(${a}, ${cx}, ${cy})`">{{ text }}</text>
         </template>
     </g>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { i18n } from '../../../i18n'
-import OptionalConnectorActiveIsCriticalField from '../../../modals/form/OptionalConnectorActiveIsCriticalField.vue'
+import OptionalConnectorActiveIsStarField from '../../../modals/form/OptionalConnectorActiveIsStarField.vue'
 import OptionalConnectorActiveIsFakeField from '../../../modals/form/OptionalConnectorActiveIsFakeField.vue'
 import OptionalConnectorEaseField from '../../../modals/form/OptionalConnectorEaseField.vue'
 import OptionalConnectorGuideAlphaField from '../../../modals/form/OptionalConnectorGuideAlphaField.vue'
@@ -10,7 +10,7 @@ import OptionalConnectorTypeField from '../../../modals/form/OptionalConnectorTy
 import OptionalFlickDirectionField from '../../../modals/form/OptionalFlickDirectionField.vue'
 import OptionalIsAttachedField from '../../../modals/form/OptionalIsAttachedField.vue'
 import OptionalIsConnectorSeparatorField from '../../../modals/form/OptionalIsConnectorSeparatorField.vue'
-import OptionalIsCriticalField from '../../../modals/form/OptionalIsCriticalField.vue'
+import OptionalIsStarField from '../../../modals/form/OptionalIsStarField.vue'
 import OptionalIsFakeField from '../../../modals/form/OptionalIsFakeField.vue'
 import OptionalNoteTypeField from '../../../modals/form/OptionalNoteTypeField.vue'
 import OptionalSfxField from '../../../modals/form/OptionalSfxField.vue'
@@ -30,43 +30,43 @@ const createModel = useProperties(
     setDefaultSlidePropertiesPreset,
 )
 
-const noteType = createModel('noteType')
+/*const noteType = createModel('noteType')
 const isAttached = createModel('isAttached')
-const size = createModel('size')
-const isCritical = createModel('isCritical')
-const flickDirection = createModel('flickDirection')
+const size = createModel('size')*/
+const isStar = createModel('isStar')
+/*const flickDirection = createModel('flickDirection')
 const isFake = createModel('isFake')
 const sfx = createModel('sfx')
 const isConnectorSeparator = createModel('isConnectorSeparator')
 const connectorType = createModel('connectorType')
 const connectorEase = createModel('connectorEase')
-const connectorActiveIsCritical = createModel('connectorActiveIsCritical')
+const connectorActiveIsStar = createModel('connectorActiveIsStar')
 const connectorActiveIsFake = createModel('connectorActiveIsFake')
 const connectorGuideColor = createModel('connectorGuideColor')
 const connectorGuideAlpha = createModel('connectorGuideAlpha')
-const connectorLayer = createModel('connectorLayer')
+const connectorLayer = createModel('connectorLayer')*/
 </script>
 
 <template>
     <PropertiesModal :title="i18n.commands.slide.modal.title">
-        <PresetField
+        <!--PresetField
             v-model="defaultSlidePropertiesPresetIndex"
             :count="settings.defaultSlidePropertiesPresets.length"
         />
         <OptionalNoteTypeField v-model="noteType" />
         <OptionalIsAttachedField v-model="isAttached" />
-        <OptionalSizeField v-model="size" />
-        <OptionalIsCriticalField v-model="isCritical" />
-        <OptionalFlickDirectionField v-model="flickDirection" />
+        <OptionalSizeField v-model="size" /-->
+        <OptionalIsStarField v-model="isStar" />
+        <!--OptionalFlickDirectionField v-model="flickDirection" />
         <OptionalIsFakeField v-model="isFake" />
         <OptionalSfxField v-model="sfx" />
         <OptionalIsConnectorSeparatorField v-model="isConnectorSeparator" />
         <OptionalConnectorTypeField v-model="connectorType" />
         <OptionalConnectorEaseField v-model="connectorEase" />
-        <OptionalConnectorActiveIsCriticalField v-model="connectorActiveIsCritical" />
+        <OptionalConnectorActiveIsStarField v-model="connectorActiveIsStar" />
         <OptionalConnectorActiveIsFakeField v-model="connectorActiveIsFake" />
         <OptionalConnectorGuideColorField v-model="connectorGuideColor" />
         <OptionalConnectorGuideAlphaField v-model="connectorGuideAlpha" />
-        <OptionalConnectorLayerField v-model="connectorLayer" />
+        <OptionalConnectorLayerField v-model="connectorLayer" /-->
     </PropertiesModal>
 </template>
