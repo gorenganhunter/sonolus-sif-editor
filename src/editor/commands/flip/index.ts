@@ -46,15 +46,15 @@ export const flip: Command = {
 
 type Flip<T> = (transaction: Transaction, entity: T) => Entity[]
 
-const flippedFlickDirections: Record<FlickDirection, FlickDirection> = {
-    none: 'none',
-    up: 'up',
-    upLeft: 'upRight',
-    upRight: 'upLeft',
-    down: 'down',
-    downLeft: 'downRight',
-    downRight: 'downLeft',
-}
+// const flippedFlickDirections: Record<FlickDirection, FlickDirection> = {
+//     none: 'none',
+//     up: 'up',
+//     upLeft: 'upRight',
+//     upRight: 'upLeft',
+//     down: 'down',
+//     downLeft: 'downRight',
+//     downRight: 'downLeft',
+// }
 
 const flips: {
     [T in Entity as T['type']]?: Flip<T>
@@ -62,7 +62,7 @@ const flips: {
     note: (transaction, entity) =>
         editSelectedNote(transaction, entity, {
             ...entity,
-            left: -(entity.left + entity.size),
-            flickDirection: flippedFlickDirections[entity.flickDirection],
+            lane: -entity.lane,
+            //flickDirection: flippedFlickDirections[entity.flickDirection],
         }),
 }

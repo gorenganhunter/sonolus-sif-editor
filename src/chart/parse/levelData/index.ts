@@ -4,6 +4,7 @@ import { type LevelDataEntity } from '@sonolus/core'
 import type { Chart } from '../..'
 import { parseBpmsToChart } from './bpm'
 import { parseSlidesToChart } from './slide'
+import { parseInitializationToChart } from './initialization'
 // import { parseTimeScalesToChart } from './timeScale'
 
 export type TimeScaleNames = (string | undefined)[]
@@ -16,13 +17,14 @@ export type ParseToChart = (
 
 export const parseLevelDataChart = (entities: LevelDataEntity[]): Chart => {
     const chart: Chart = {
-        attr: entities[0] ? getValue(entities[0], "color", Type.Number()) : 2,
+        attr: 2,
         bpms: [],
         //        groupCount: 2,
         //        timeScales: [],
         slides: [],
     }
 
+    parseInitializationToChart(chart, entities)
     //    const timeScaleNames: TimeScaleNames = []
 
     parseBpmsToChart(chart, entities)
