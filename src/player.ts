@@ -27,15 +27,15 @@ const context = new AudioContext()
 
 const sfxBuffers = {
     normalTap: optional<AudioBuffer>(),
-    criticalTap: optional<AudioBuffer>(),
-    normalFlick: optional<AudioBuffer>(),
-    criticalFlick: optional<AudioBuffer>(),
-    normalTrace: optional<AudioBuffer>(),
-    criticalTrace: optional<AudioBuffer>(),
-    normalTick: optional<AudioBuffer>(),
-    criticalTick: optional<AudioBuffer>(),
-    normalActive: optional<AudioBuffer>(),
-    criticalActive: optional<AudioBuffer>(),
+    // criticalTap: optional<AudioBuffer>(),
+    // normalFlick: optional<AudioBuffer>(),
+    // criticalFlick: optional<AudioBuffer>(),
+    // normalTrace: optional<AudioBuffer>(),
+    // criticalTrace: optional<AudioBuffer>(),
+    // normalTick: optional<AudioBuffer>(),
+    // criticalTick: optional<AudioBuffer>(),
+    // normalActive: optional<AudioBuffer>(),
+    // criticalActive: optional<AudioBuffer>(),
 }
 
 type ActiveAudio = {
@@ -54,8 +54,8 @@ let state:
         lastTime: number
         nodes: Set<AudioNode>
         actives: {
-            normalActive: Set<ActiveAudio>
-            criticalActive: Set<ActiveAudio>
+            // normalActive: Set<ActiveAudio>
+            // criticalActive: Set<ActiveAudio>
         }
     }
     | undefined
@@ -77,13 +77,13 @@ watch(time, ({ now }) => {
 
     const targets = {
         normalTap: new Set<number>(),
-        criticalTap: new Set<number>(),
-        normalFlick: new Set<number>(),
-        criticalFlick: new Set<number>(),
-        normalTrace: new Set<number>(),
-        criticalTrace: new Set<number>(),
-        normalTick: new Set<number>(),
-        criticalTick: new Set<number>(),
+        // criticalTap: new Set<number>(),
+        // normalFlick: new Set<number>(),
+        // criticalFlick: new Set<number>(),
+        // normalTrace: new Set<number>(),
+        // criticalTrace: new Set<number>(),
+        // normalTick: new Set<number>(),
+        // criticalTick: new Set<number>(),
     }
 
     for (const entity of cullEntities('note', keys.min, keys.max)) {
@@ -109,12 +109,12 @@ watch(time, ({ now }) => {
         const info = infos.find((info) => info.note === entity)
         if (!info) throw new Error('Unexpected missing info')
 
-        const isInActive = info.activeHead !== info.activeTail
-        const isActiveHead = info.activeHead === info.note
-        const isActiveTail = info.activeTail === info.note
-        const isFlick = info.note.flickDirection !== 'none'
+        // const isInActive = info.activeHead !== info.activeTail
+        // const isActiveHead = info.activeHead === info.note
+        // const isActiveTail = info.activeTail === info.note
+        // const isFlick = info.note.flickDirection !== 'none'
 
-        // targets.normalTap.add(entity.beat)
+        targets.normalTap.add(entity.beat)
         // if (entity.noteType === 'trace') {
         //     if (isFlick) {
         //         if (entity.isCritical) {
@@ -267,8 +267,8 @@ watch(time, ({ now }) => {
     }
 
     const activeTargets = {
-        normalActive: Array<ConnectorEntity>(),
-        criticalActive: Array<ConnectorEntity>(),
+        // normalActive: Array<ConnectorEntity>(),
+        // criticalActive: Array<ConnectorEntity>(),
     }
 
     for (const entity of cullEntities('connector', keys.min, keys.max)) {
@@ -284,25 +284,25 @@ watch(time, ({ now }) => {
         // }
     }
 
-    for (const [type, entities] of entries(activeTargets)) {
-        if (!sfxBuffers[type]) continue
-
-        for (const entity of entities.sort((a, b) => a.head.beat - b.head.beat)) {
-            scheduleActive(
-                state.actives[type],
-                sfxBuffers[type],
-                entity.head.beat,
-                entity.tail.beat,
-                settings.playSfxVolume,
-                (beatToTime(bpms.value, entity.head.beat) - state.bgmTime) / state.speed +
-                state.contextTime +
-                delay,
-                (beatToTime(bpms.value, entity.tail.beat) - state.bgmTime) / state.speed +
-                state.contextTime +
-                delay,
-            )
-        }
-    }
+    // for (const [type, entities] of entries(activeTargets)) {
+    //     if (!sfxBuffers[type]) continue
+    //
+    //     for (const entity of entities.sort((a, b) => a.head.beat - b.head.beat)) {
+    //         scheduleActive(
+    //             state.actives[type],
+    //             sfxBuffers[type],
+    //             entity.head.beat,
+    //             entity.tail.beat,
+    //             settings.playSfxVolume,
+    //             (beatToTime(bpms.value, entity.head.beat) - state.bgmTime) / state.speed +
+    //             state.contextTime +
+    //             delay,
+    //             (beatToTime(bpms.value, entity.tail.beat) - state.bgmTime) / state.speed +
+    //             state.contextTime +
+    //             delay,
+    //         )
+    //     }
+    // }
 
     state.lastTime = now
 })
@@ -322,8 +322,8 @@ export const startPlayer = (bgmTime: number, speed: number) => {
         lastTime: time,
         nodes: new Set(),
         actives: {
-            normalActive: new Set(),
-            criticalActive: new Set(),
+            // normalActive: new Set(),
+            // criticalActive: new Set(),
         },
     }
 
